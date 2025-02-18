@@ -1,7 +1,153 @@
-function showTime() {
-	document.getElementById('currentTime').innerHTML = new Date().toUTCString();
-}
-showTime();
-setInterval(function () {
-	showTime();
-}, 1000);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秘密基地</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Creepster', cursive;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #00aaff;
+            text-shadow: 0 0 10px #00aaff;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .button {
+            background: none;
+            border: 2px solid #00aaff;
+            color: #00aaff;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background: #00aaff;
+            color: black;
+            box-shadow: 0 0 10px #00aaff;
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 2s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .message-board, .quiz, .pet-container {
+            margin-top: 30px;
+            border: 2px solid #00aaff;
+            padding: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.8);
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: black;
+            color: white;
+            border: 1px solid #00aaff;
+            padding: 5px;
+        }
+        .message {
+            border-bottom: 1px solid #00aaff;
+            padding: 10px;
+            text-align: left;
+        }
+        .pet {
+            font-size: 50px;
+            display: block;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container fade-in">
+        <h1>欢迎来到秘密基地</h1>
+        <p>探索属于你的神秘世界...</p>
+        <p>当前时间: <span id="currentTime"></span></p>
+        <button class="button" onclick="showMessageBoard()">进入留言板</button>
+        <button class="button" onclick="showQuiz()">开始小测试</button>
+        <button class="button" onclick="showPet()">照顾你的虚拟宠物</button>
+        
+        <div id="messageBoard" class="message-board" style="display: none;">
+            <h2>留言板</h2>
+            <textarea id="messageInput" placeholder="写下你的留言..."></textarea>
+            <button class="button" onclick="postMessage()">提交</button>
+            <div id="messages"></div>
+        </div>
+        
+        <div id="quiz" class="quiz" style="display: none;">
+            <h2>你是哪种亚文化风格？</h2>
+            <p>选择最符合你的答案：</p>
+            <button class="button" onclick="showResult('哥特风')">哥特风</button>
+            <button class="button" onclick="showResult('朋克风')">朋克风</button>
+            <button class="button" onclick="showResult('赛博朋克')">赛博朋克</button>
+            <button class="button" onclick="showResult('蒸汽波')">蒸汽波</button>
+            <h3 id="quizResult"></h3>
+        </div>
+        
+        <div id="petContainer" class="pet-container" style="display: none;">
+            <h2>你的虚拟宠物</h2>
+            <span id="pet" class="pet">🐱</span>
+            <p>宠物状态: <span id="petStatus">开心</span></p>
+            <button class="button" onclick="feedPet()">喂食</button>
+            <button class="button" onclick="playWithPet()">玩耍</button>
+        </div>
+    </div>
+    
+    <script>
+        function showTime() { 
+            document.getElementById('currentTime').innerHTML = new Date().toLocaleString(); 
+        } 
+        showTime(); 
+        setInterval(showTime, 1000);
+        
+        function showMessageBoard() {
+            document.getElementById('messageBoard').style.display = 'block';
+        }
+        
+        function postMessage() {
+            let messageInput = document.getElementById('messageInput');
+            let messageText = messageInput.value;
+            if (messageText.trim() !== "") {
+                let messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.textContent = messageText;
+                document.getElementById('messages').appendChild(messageDiv);
+                messageInput.value = "";
+            }
+        }
+        
+        function showQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+        }
+        
+        function showResult(result) {
+            document.getElementById('quizResult').innerText = "你的风格是：" + result;
+        }
+        
+        function showPet() {
+            document.getElementById('petContainer').style.display = 'block';
+        }
+        
+        function feedPet() {
+            document.getElementById('petStatus').innerText = "满足";
+        }
+        
+        function playWithPet() {
+            document.getElementById('petStatus').innerText = "兴奋";
+        }
+    </script>
+</body>
+</html>
